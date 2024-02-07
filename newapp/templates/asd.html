@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Tracking App - ASD</title>
+    <script>
+        function updateCurrentTime() {
+            var currentTimeElement = document.getElementById('current_time');
+            var currentTime = new Date().toLocaleTimeString();
+            currentTimeElement.innerText = currentTime;
+        }
+
+        // Call the function on page load
+        window.onload = function() {
+            updateCurrentTime();
+            // Update the time every second
+            setInterval(updateCurrentTime, 1000);
+        };
+    </script>
+</head>
+<body>
+    <h1 id="current_time"></h1>
+
+    <form method="post" action="{% url 'time_out' %}">
+        {% csrf_token %}
+        
+        <button type="submit" name="action" value="time_out">Time Out</button>
+    </form>
+</body>
+</html>

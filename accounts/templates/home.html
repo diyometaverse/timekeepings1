@@ -1,0 +1,62 @@
+<!-- accounts/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <script>
+        function updateCurrentTime() {
+            var currentTimeElement = document.getElementById('current_time');
+            var currentTime = new Date().toLocaleTimeString();
+            currentTimeElement.innerText = currentTime;
+        }
+
+        // Call the function on page load
+        window.onload = function() {
+            updateCurrentTime();
+            setInterval(updateCurrentTime, 1000);
+        };
+
+        // JavaScript function to handle click event on the time_in cell
+        function showTimeDetails(time) {
+            alert('Latest Time In: ' + time);
+            // You can customize this function to display the time details in a modal or perform any other action
+        }
+    </script>
+</head>
+<body>
+
+<h1>Welcome to Your Home Page</h1>
+<h1 id="current_time"></h1>
+
+<form method="post" action="{% url 'accounts:home' %}">
+    {% csrf_token %}
+    <label for="username">User:</label>
+    <input type="text" name="username" id="username" required>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" required>
+    
+    <button type="submit" name="action" value="time_out">Time Out</button>
+</form>
+{% if latest_time_entry %}
+    <table>
+        <thead>
+            <tr>
+                <th>Latest Time In</th>
+                <th>Latest Time Out</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ latest_time_entry.time_in }}</td>
+                <td>{{ latest_time_entry.time_out }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% else %}
+    <p>No time entries available.</p>
+{% endif %}
+
+</body>
+</html>
